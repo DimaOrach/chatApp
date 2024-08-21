@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Model from '../components/Model';
+import Register from '../components/Register';
+import Login from '../components/Login';
 
 const Home = () => {
+    const [isModelOpen, setIsModelOpen] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
+    const openSignUp = () => {
+      setIsModelOpen(true);
+      setIsLogin(false);
+    }
+    const openLogin = () => {
+      setIsModelOpen(true);
+      setIsLogin(true);
+    }
+
   return (
     <div 
       style={{
@@ -20,13 +34,13 @@ const Home = () => {
       <div >
         <h2 
           style={{
-            fontSize: '6rem', // text-6xl
-            padding: '0.75rem 0', // py-3
-            backgroundColor: 'rgba(255, 255, 255, 0.8)', // bg-white bg-opacity-80
-            color: '#4A5568', // text-gray-700
-            fontWeight: 'bold', // font-bold
-            borderRadius: '0.75rem', // rounded-lg
-            fontFamily: 'Anek', // fontAnek
+            fontSize: '6rem', 
+            padding: '0.75rem 0', 
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            color: '#4A5568', 
+            fontWeight: 'bold', 
+            borderRadius: '0.75rem', 
+            fontFamily: 'Anek', 
             
           }}
         >
@@ -34,22 +48,26 @@ const Home = () => {
         </h2>
         <button 
           style={{
-            padding: '0.75rem', // p-3
-            backgroundColor: '#2B6CB0', // bg-blue-600
-            color: '#FFFFFF', // text-white
-            fontSize: '1.875rem', // text-3xl
-            fontWeight: 'bold', // font-blod (виправлено на font-bold)
-            borderRadius: '0.75rem', // rounded-lg
-            marginTop: '0.5rem', // mt-2
+            padding: '0.75rem',
+            backgroundColor: '#2B6CB0', 
+            color: '#FFFFFF', 
+            fontSize: '1.875rem', 
+            fontWeight: 'bold', 
+            borderRadius: '0.75rem', 
+            marginTop: '0.5rem',
             cursor: 'pointer',
             transition: 'background-color 0.3s',
           }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2B6AB0'} // hover:bg-blue-800
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2B6CB0'} // revert color
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2B6AB0'} 
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2B6CB0'} 
+          onClick={() => setIsModelOpen(true)}
         >
           Login / Register
         </button>
       </div>
+      <Model isModelOpen={isModelOpen} setIsModelOpen={setIsModelOpen}>
+        {isLogin ? <Login openSignUp={openSignUp} /> : <Register openLogin={openLogin} />}
+        </Model>
     </div>
   );
 };
