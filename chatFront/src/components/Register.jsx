@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Register = ({openLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [file, setFile] = useState(null);
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('image', file);
+        try {
+          const response = await axios.post('http://localhost:5000/chat/user/register', formData);
+          console.log(response);
+          if(response.data.msg === 'Success!') {
+            openLogin();
+          }
+        } catch(error) {
+          console.log(error);
+        }
+        
     }
 
 
