@@ -71,3 +71,7 @@ export async function Login(req, res) {
     }
 }
 
+export const verify = async(req, res) => {
+    return res.status(200).json({msg: 'Success!'})
+}
+

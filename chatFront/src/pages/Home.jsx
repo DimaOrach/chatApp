@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Model from '../components/Model';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
     const [isModelOpen, setIsModelOpen] = useState(false);
@@ -14,6 +16,28 @@ const Home = () => {
       setIsModelOpen(true);
       setIsLogin(true);
     }
+
+    const navigate = useNavigate();
+      useEffect(() => {
+      const verifyUser = async () => {
+      try{
+        const response = await axios.get('http://localhost:5000/chat/user/verify', {
+          headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('chat-token')}`
+          }
+        }); 
+          console.log(response);
+        
+          if(response.data.msg === 'Success!') {
+          navigate('/chat');
+        } 
+      } catch(error) {
+        console.log(error);
+      }
+      }
+
+      verifyUser();
+    }, []);
 
   return (
     <div 
