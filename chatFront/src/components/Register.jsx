@@ -117,39 +117,38 @@ const Register = ({openLogin}) => {
           </div>
         </div>
         
-        <div style={{ marginBottom: '1rem' }}> {}
-          <label style={{ display: 'block', color: '#4a5568' }}>Upload Image</label> {}
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            style={{
-              border: '1px solid #d1d5db', 
-              padding: '0.5rem', 
-              display: 'block', 
-              width: '100%',
-              fontSize: '0.875rem', 
-              color: '#6b7280', 
-              width: '96%',
-              
-              // Стилі для кнопки введення файлу
-              '::file-selector-button': {
-                marginRight: '1rem', 
-                padding: '0.5rem 1rem',
-                borderRadius: '9999px', 
-                border: 'none', 
-                fontSize: '0.875rem',
-                fontWeight: '600', 
-                backgroundColor: '#3b82f6', 
-                color: 'white',
-                cursor: 'pointer', 
-              },
-              
-              // Стан наведення курсора на кнопку введення файлу
-              '::file-selector-button:hover': {
-                backgroundColor: '#1d4ed8', 
-              },
-            }}
-          />
+        <div style={{ marginBottom: '1rem' }}>
+        <label style={{ display: 'block', color: '#4a5568' }}>Upload Image</label>
+        <input
+          type="file"
+          onChange={(e) => setFile(e.target.files[0])}
+          style={{
+            border: '1px solid #d1d5db',
+            padding: '0.5rem',
+            display: 'block',
+            width: '96%', // залишаємо лише цей ключ 'width'
+            fontSize: '0.875rem',
+            color: '#6b7280',
+
+            // Стилі для кнопки введення файлу
+            '::file-selector-button': {
+              marginRight: '1rem',
+              padding: '0.5rem 1rem',
+              borderRadius: '9999px',
+              border: 'none',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              cursor: 'pointer',
+            },
+
+            // Стан наведення курсора на кнопку введення файлу
+            '::file-selector-button:hover': {
+              backgroundColor: '#1d4ed8',
+            },
+          }}
+        />
         </div>
 
 
