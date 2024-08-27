@@ -1,36 +1,46 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({setChatInitiated, setChats}) => {
     const navigate = useNavigate();
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
-            try{
+            try {
                 const users = await axios.get('http://localhost:5000/chat/users', {
                     headers: {
-                      'Authorization': `Bearer ${window.localStorage.getItem('chat-token')}`
+                        'Authorization': `Bearer ${window.localStorage.getItem('chat-token')}`
                     }
-                  });
+                });
                 setUsers(users.data.users);
-            } catch(error) {
+            } catch (error) {
                 navigate('/');
                 console.log(error);
             }
         }
-        fetchUsers()
+        fetchUsers();
     }, []);
-    
+
+    const startChat = (id) => {
+        setChatInitiated(true);
+    }
+
     const styles = {
         container: {
-            width: '25%',
+            width: '20%', 
+            height: '100vh', 
             backgroundColor: 'black',
             padding: '16px',
-            backgroundOpacity: 0.7,
-            position: 'relative',
-            boxSizing: 'border-box',  // Додано для правильного врахування padding і border
+            boxSizing: 'border-box', 
+            position: 'fixed', 
+            top: 0,
+            left: 0, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: 'space-between', 
+            zIndex: 1
         },
         input: {
             width: '100%',
@@ -41,7 +51,8 @@ const Sidebar = () => {
             boxSizing: 'border-box',
         },
         userContainer: {
-            spaceY: '16px',
+            flexGrow: 1, 
+            overflowY: 'auto',
         },
         userItem: {
             display: 'flex',
@@ -69,10 +80,6 @@ const Sidebar = () => {
             fontWeight: 'bold',
         },
         logoutButton: {
-            position: 'fixed',
-            bottom: '280px',
-            right: '800px',
-            left: '800px',
             borderRadius: '4px',
             backgroundColor: '#3b82f6',
             color: 'white',
@@ -83,24 +90,25 @@ const Sidebar = () => {
             },
         },
     };
-    
+
     return (
         <div style={styles.container}>
-            <input 
-            type='text' 
-            placeholder='Search'
-            style={styles.input}
+            <input
+                type='text'
+                placeholder='Search'
+                style={styles.input}
             />
             {users.length > 0 ? (
                 <div style={styles.userContainer}>
                     {users.map(user => (
                         <div
-                        key={user._id}
-                        style={styles.userItem}
+                            key={user._id}
+                            onClick={() => startChat(user._id)}
+                            style={styles.userItem}
                         >
-                            <img src='' 
-                            alt='' 
-                            style={styles.userImage}
+                            <img src=''
+                                alt=''
+                                style={styles.userImage}
                             />
                             <span style={styles.userName}>
                                 {user.username}
@@ -108,7 +116,7 @@ const Sidebar = () => {
                         </div>
                     ))}
                 </div>
-            ): (
+            ) : (
                 <p style={styles.noUsers}>No Users</p>
             )}
             <button
@@ -117,7 +125,7 @@ const Sidebar = () => {
                 Logout
             </button>
         </div>
-    )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;
