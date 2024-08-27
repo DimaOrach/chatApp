@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const Sidebar = ({setChatInitiated, setChats}) => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
+    const handleLogout = () => {
+        window.localStorage.removeItem('chat-token');
+        window.localStorage.removeItem('userId');
+        navigate('/');
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -85,6 +90,7 @@ const Sidebar = ({setChatInitiated, setChats}) => {
             color: 'white',
             padding: '8px',
             textAlign: 'center',
+            cursor: 'pointer',
             hover: {
                 backgroundColor: '#2563eb',
             },
@@ -120,6 +126,7 @@ const Sidebar = ({setChatInitiated, setChats}) => {
                 <p style={styles.noUsers}>No Users</p>
             )}
             <button
+            onClick={handleLogout}
                 style={styles.logoutButton}
             >
                 Logout
