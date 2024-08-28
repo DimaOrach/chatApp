@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({setChatInitiated, setChats}) => {
+const Sidebar = ({setChatInitiated, setChats, socket, setReceiverId}) => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const handleLogout = () => {
@@ -29,7 +29,9 @@ const Sidebar = ({setChatInitiated, setChats}) => {
     }, []);
 
     const startChat = (id) => {
+        socket.emit('join', id);
         setChatInitiated(true);
+        setReceiverId(id);
     }
 
     const styles = {

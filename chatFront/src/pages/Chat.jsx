@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Form from '../components/Form';
 
-const Chat = () => {
+const Chat = ({socket}) => {
   const [chatInitiated, setChatInitiated] = useState(false);
   const [chats, setChats] = useState([]);
+  const [receiverId, setReceiverId] = useState();
 
   return (
    <div
@@ -26,14 +27,19 @@ const Chat = () => {
    >
      <Sidebar
      setChatInitiated = {setChatInitiated} 
-     chatInitiated = {chatInitiated}/>
-
+     chatChats = {setChats}
+     socket={socket}
+     setReceiverId={setReceiverId}/>
+      
      <div >
        {chatInitiated ? (
         <div>
           <p> Chat Initiated </p>
 
-            <Form />
+            <Form
+            receiverId={receiverId}
+            setChats={setChats}
+            chats={chats} />
 
         </div>) : (
        <div 
