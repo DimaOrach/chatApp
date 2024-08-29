@@ -28,7 +28,23 @@ const Sidebar = ({setChatInitiated, setChats, socket, setReceiverId}) => {
         fetchUsers();
     }, []);
 
-    const startChat = (id) => {
+    const startChat = async (id) => {
+        try{
+            const response = await axios.get(
+                'http://localhost:5000/chat/message/read/' + id,
+                {
+                  headers: {
+                    Authorization: `Bearer ${window.localStorage.getItem('chat-token')}`,
+                  },
+                }
+              );
+              setChats(response.data);
+        } catch(error) {
+            if(error.response.data.message === 'Not Found') {
+                setChats([]);
+            }
+            console.log(error);
+        }
         socket.emit('join', id);
         setChatInitiated(true);
         setReceiverId(id);

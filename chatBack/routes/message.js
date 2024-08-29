@@ -5,10 +5,33 @@ import Message from '../models/message.js';
 
 const router = express.Router();
 
+router.get('/read/:receiverId', verifyUser, async (req, res) => {
+    try{
+        const receiverId = req.params.receiverId;
+        const senderId = req.user._id;
+
+        const conversation = await Conversation.findOne({
+            participants: {$all: [senderId, receiverId]}
+        });
+
+        if(!conversation) {
+            return res.status(404).json({message: 'Not Found'});
+        }
+        const messages = await Message.find({
+            conversationId: conversation._id
+        }).sort({createdAt: 1});
+
+        return res.status(200).json(messages);
+
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({message: error});
+    }
+});
+
 router.post('/send/:receiverId', verifyUser, async (req, res) => {
     try{
-        const receiverId = req.params.receiverId; // якщо тут req.params - помилка
-
+    const receiverId = req.params.receiverId; // якщо тут req.params - помилка
     const senderId = req.user._id;
     const {content} = req.body;
 
