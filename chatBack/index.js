@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/chat/user', AuthRouter);
 app.use('/chat/users', UserRouter);
 app.use('/chat/message', MessageRouter);
+app.use(express.static('public')); //показує аватарки
 
 async function start() {
     Connect();

@@ -129,7 +129,7 @@ const Sidebar = ({setChatInitiated, setChats, setReceiverId}) => {
                             onClick={() => startChat(user._id)}
                             style={styles.userItem}
                         >
-                            <img src=''
+                            <img src={`http://localhost:5000/images/${user.image}`}
                                 alt=''
                                 style={styles.userImage}
                             />
