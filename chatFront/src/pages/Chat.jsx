@@ -10,6 +10,22 @@ const Chat = ({ socket }) => {
   const [receiverId, setReceiverId] = useState();
   const userId = window.localStorage.getItem('userId'); 
 
+  useEffect(() => {
+    socket.emit('join', userId);
+  });
+
+  useEffect(() => {
+    const handleNewMessages = (message) => {
+      if(receiverId === message.sender) {
+        setChats(state => [...state, {sender: message.sender, sontent: message.content}]);
+      }
+      
+    }
+    socket.on('newMessage', handleNewMessages);
+    return () => {
+      socket.off('newMessage', handleNewMessages); // Вимикання слухача при розмонтуванні компонента
+    }
+  }, [socket, receiverId]);
   
   const styles = {
     container: {
@@ -24,6 +40,7 @@ const Chat = ({ socket }) => {
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
+      position: 'relative', // Для використання накладання
     },
     chatBox: {
       display: 'flex',
@@ -50,12 +67,14 @@ const Chat = ({ socket }) => {
     },
     chatMessage: (isSender) => ({
       display: 'flex',
+      
       padding: '8px 16px',
       //якщо повідомлення від мене - воно зліва, якщо від когось - справа
       justifyContent: isSender ? 'flex-end' : 'flex-start',
       
     }),
     messageBox: (isSender) => ({
+      
       padding: '8px',
       margin: '8px 0',
       borderRadius: '8px',
@@ -69,7 +88,6 @@ const Chat = ({ socket }) => {
       <Sidebar
         setChatInitiated={setChatInitiated}
         setChats={setChats}
-        socket={socket}
         setReceiverId={setReceiverId}
       />
 

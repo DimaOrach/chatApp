@@ -14,6 +14,10 @@ const io = new Server(server, {
     }
 });
 
+export const getReceiverSocketId = (recieverId) => {
+    return onlineUsers[recieverId];
+}
+
 io.on('connection', (socket) => {
     console.log('User joined', socket.id);
 
@@ -24,4 +28,4 @@ io.on('connection', (socket) => {
 
 });
 
-export {app, server}
+export {app, server, io}

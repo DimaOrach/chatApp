@@ -18,6 +18,7 @@ const Form = ({ receiverId, setChats, chats }) => {
         }
       );
       setChats([...chats, { content: message, sender: userId }]);
+      setMessage();
       
     } catch (error) {
       console.log(error);

@@ -2,6 +2,7 @@ import express from 'express';
 import verifyUser from '../middleware/verifyUser.js';
 import Conversation from '../models/conversation.js';
 import Message from '../models/message.js';
+import { getReceiverSocketId, io } from '../socket/socket.js';
 
 const router = express.Router();
 
@@ -54,6 +55,12 @@ router.post('/send/:receiverId', verifyUser, async (req, res) => {
     });
 
     await newMessage.save();
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if(receiverSocketId) {
+        io.to(receiverSocketId).emit('newMessage', newMessage);
+    }
+
     return res.json(newMessage);
     
 } catch(error) {
